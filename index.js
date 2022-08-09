@@ -14,19 +14,23 @@ ethereumButton.addEventListener("click", () => {
 });
 
 sendBtn.addEventListener('click', async () => {
-    const txHash = await ethereum.request({
-        method: 'eth_sendTransaction',
-        params: [
-            {
-                from: accounts[0],
-                to: '0x6fA87A8F74a686eac74d3aEe17d1FB423D494FD7',
-                value: '1000000000000'
-            },
-        ],
-    })
-    
-    console.log(await txHash)
-    .catch((error) => console.log(error))
+    try {
+        const txHash = await ethereum.request({
+            method: 'eth_sendTransaction',
+            params: [
+                {
+                    from: accounts[0],
+                    to: '0x6fA87A8F74a686eac74d3aEe17d1FB423D494FD7',
+                    value: '1000000000000'
+                },
+            ],
+        })
+        
+        console.log(await txHash)
+        
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 async function getAccount() {
