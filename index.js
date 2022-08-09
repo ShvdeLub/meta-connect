@@ -1,33 +1,37 @@
+
 const ethereumButton = document.querySelector(".enableEthereum");
 const showAccount = document.querySelector(".showAccount");
-const swapBtn = document.querySelector(".swapAccounts");
+const sendBtn = document.querySelector(".sendEth");
 
-document.addEventListener("DOMContentLoaded", () => {
-  ethereumButton.innerHTML = "connect";
-});
+let accounts = []
 
 ethereumButton.addEventListener("click", () => {
   //Will Start the metamask extension
   getAccount();
   ethereumButton.innerHTML = "Swap";
   ethereumButton.setAttribute("name", "swap");
-  if (ethereumButton.getAttribute("name" == "swap")) {
-    swapAccount();
-  }
+
 });
 
+sendBtn.addEventListener('click', async () => {
+    const txHash = await ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [
+            {
+                from: accounts[0],
+                to: '0x6fA87A8F74a686eac74d3aEe17d1FB423D494FD7',
+                value: '1000000000000'
+            },
+        ],
+    })
+    
+    console.log(await txHash)
+    .catch((error) => console.log(error))
+})
+
 async function getAccount() {
-  const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-  const account = accounts[0];
-  showAccount.innerHTML = account;
+  accounts = await ethereum.request({ method: "eth_requestAccounts" });
+  showAccount.innerHTML = accounts;
 }
 
-async function swapAccount() {
-  const newAccounts = await ethereum.request({ method: "eth_requestAccounts" });
-  const newAccount = newAccounts[0];
-  if (newAccount == account) {
-    alert("take another account than the first one");
-  } else {
-    showAccount.innerHTML = newAccount;
-  }
-}
+
